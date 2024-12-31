@@ -1,0 +1,16 @@
+{% extends 'layouts/layout.html' %}
+
+{% block body %}
+
+<h1>This is the page for add items</h1>
+
+<form method="POST" action="/addItem">
+    <input type="text" name="ITEM" class="form-control">
+    <input type="number" name="QUANTITY" class="form-control">
+    <input type="number" name="KG OR LT" class="form-control">
+    <input type="number" name="PRICE" class="form-control">
+    <input type="text" name="NOTES" class="form-control">
+</form>
+
+
+{% endblock %}  
