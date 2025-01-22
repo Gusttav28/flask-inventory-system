@@ -23,13 +23,86 @@
 
 <form method="POST" action="/addItem">
     <div class="mx-auto col-md-2 mb-5 mt-5">
-        <div id='btnContainers' class="d-flex justify-content-center gap-3 mb-4">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            <div id="flash_container" class="alert alert-dismissible alert-warning" role="alert">
+                <p class="alert-link">{{message}}</p>
+            </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <style>
+            .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30%;
+            max-width: 400;
+            min-width: 200;
+            height: auto;
+            padding: 15px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        .modal-header {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        .modal-footer {
+            text-align: right;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .open-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .close-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        </style>
+
+        <A HREF= "#" onclick="openModal()">
+            See the sample</A>.
+
+        
+            
+
+
+
+
+        <!-- <div id='btnContainers' class="d-flex justify-content-center gap-3 mb-4"> -->
             <!-- <button type="submit" class="btn btn-primary me-4">Add</button> -->
 
             <!-- <a id="btnDelete" href="#" class="btn btn-secundary me-4" style="pointer-events: none;">Delete</a>  -->
 
             <!-- <a id="btnEdit" href="#" class="btn btn-secundary me-4" style="pointer-events: none;">Edit</a>  -->
-        </div>
+        <!-- </div> -->
+        
         <!-- <script>
             function btnTestt(){
                 const btnDelete = document.getElementById('btnDelete');
@@ -46,7 +119,7 @@
             {%endfor%}
         </div>  
     </div> -->
-    <div class="mx-auto col-md-7">
+    <div class="mx-auto col-md-7 d-flex justify-content-center align-items-center" style="min-height: 40vh;">
         <div>
             <table class="table table-striped table-bordered bg-white table-sm">
                 <thead>
@@ -56,6 +129,7 @@
                         <th>KG or LT</th>
                         <th>PRICE</th>
                         <th>NOTES</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,8 +148,12 @@
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <input class="form-control form-control me-2 inputsTable" size="120" type="text" name="kg_or_lt" class="form-group">
-                                <select class="form-select form-control-lg inputsTable" name="unit" id="">
+                                <input class="form-control form-control me-2 inputsTable" size="120" 
+                                name="kg_or_lt"
+                                style="width: 98px;" 
+                                class="form-group">
+                                <select class="form-select form-control-lg inputsTable" name="unit"
+                                style="width: 100;">
                                     <option value="Kg">KG</option>
                                     <option value="Lt">LT</option>
                                 </select>
@@ -87,23 +165,99 @@
                         <td>
                             <input class="form-control inputsTable" size="80" type="NOTE" name="notes" class="form-group">
                         </td>
-                    </tr>   
+
+                        <td style="text-align: center; vertical-align: middle; size: 20px;">
+                            <!-- <div id='btnContainers' class="d-flex gap-3 mb-4">
+                            </div> -->
+
+                            <button type="submit" class="btn btn-outline-primary me-4"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0"/>
+                                  </svg>
+                            </button>
+
+                            <a class="btn btn-outline-primary me-4" onclick="emptyInputs()">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                 <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293z"/>
+                               </svg>
+                            </a>     
+
+                        </td>
+                    </tr>       
 
                     {% for item_Information in itemInformation %}
                     <tr>
-                        <td> <a onclick="itemsDeleteFu()" href="#" class="btn btn-secundary">{{item_Information.1}}</a>
+                        <td> <a id="itemData" onclick="itemsDeleteFu()" href="#" class="btn btn-secundary">{{item_Information.1}}</a>
                         <!-- <script src="{{url_for('static', filename='js/main.js')}}"></script> -->
                         </td>
                         <td><a onclick="itemsDeleteFu()" class="btn btn-secundary" href="#">{{item_Information.2}}</a></td>
                         <td><a onclick="itemsDeleteFu()" class="btn btn-secundary" href="#">{{item_Information.3}}</a></td>
                         <td><a onclick="itemsDeleteFu()" class="btn btn-secundary" href="#">{{item_Information.4}}</a></td>
                         <td><a onclick="itemsDeleteFu()" class="btn btn-secundary" href="#">{{item_Information.5}}</a></td>
+
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a href="/itemUpdate/{{item_Information.0}}" onclick="openModal()" class="btn btn-secundary me-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="45" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                                      </svg>
+                                </a> 
+                                <a href="/itemDelete/{{item_Information.0}}" class="btn btn-secundary me-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="45" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                      </svg>
+                                </a> 
+                            </div>
+                        </td>
+
+                        <div  data-value={{item_Information.0}}></div>
                         <!-- <td>
                             <div class="form-check d-flex align-items-center text-start ms-4">
                                 <input id="checkbox" class="form-check-input"  type="checkbox" style="pointer-events: none;">
                             </div>  
                         </td> -->
                     </tr>
+
+                    <div class="modal-overlay" id="modal-overlay"></div>
+                    <div class="modal" id="modal">
+                        <div class="modal-header">Interactive Window</div>
+                        <div class="modal-body">
+                            <label for="user-input">Enter something:</label>
+                            <!-- <form method="POST" action="/{{item_Information.0}}">
+                                <input class="form-control inputsTable" size="60" value="{{item_Information.1}}" type="text" name="item" class="form-group">
+
+                                <select class="form-select me-2 inputsTable" name="quantity">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                
+                                <input class="form-control form-control me-2 inputsTable" size="120" 
+                                name="kg_or_lt"
+                                style="width: 98px;" 
+                                class="form-group"
+                                value="{{item_Information.3}}">
+                                <select class="form-select form-control-lg inputsTable" name="unit"
+                                style="width: 100;">
+                                    <option value="Kg">KG</option>
+                                    <option value="Lt">LT</option>
+                                </select>
+
+                                <input class="form-control inputsTable" size="70" type="text" name="price" class="form-group" value="{{item_Information.4}}">
+
+                                <input class="form-control inputsTable" size="80" type="NOTE" name="notes"  value="{{item_Information.5}}" class="form-group">
+                                
+                            </form> -->
+                        </div>
+                        <div class="modal-footer">
+                            <button class="close-btn" onclick="closeModal()">Close</button>
+                            <button class="open-btn" onclick="handleInput()">Submit</button>
+                        </div>
+                    </div>
+
                     {%endfor%}
                 </tbody>
             </table>

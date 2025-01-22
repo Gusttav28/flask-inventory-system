@@ -16,9 +16,9 @@ class app:
         self.route_login = "/login"
         self.route_itemView = "/itemView"
         self.route_addItem = "/addItem"
-        self.route_editItem = "/editItem"
+        self.route_editItem = "/editItem/<id>"
         self.route_itemUpdate = "/itemUpdate"
-        self.route_itemDelete = "/itemDelete"
+        self.route_itemDelete = "/itemDelete/<id>"
 
         self.appFlaskName.secret_key = "mysecrettkey"
 
@@ -31,7 +31,7 @@ class app:
         )
 
     def app_main(self):
-        self.appFlaskName.run(port=8095, debug=True)
+        self.appFlaskName.run(port=8097, debug=True)
 
     def app_routes(self):
 
@@ -65,29 +65,59 @@ class app:
         
         @self.appFlaskName.route(self.route_addItem, methods=['POST', 'GET'])
         def addItem():
-            if request.method == 'POST':
-                product_id = 0
-                item = request.form['item']
-                quantity = request.form['quantity']
-                kg_or_lt = request.form['kg_or_lt']
-                price = request.form['price']
-                notes = request.form['notes']
-                print(item, quantity, kg_or_lt, price,notes)
-                cur = self.cnn.cursor()
-                cur.execute('INSERT INTO Inventtorytable (product_id, item, quantity, kg_or_lt, price, notes) VALUES(%s, %s, %s, %s, %s, %s)',(product_id, item, quantity, kg_or_lt, price, notes))
-                self.cnn.commit()
-                flash("The item was successfully add it")
+            try:                
+                if request.method == 'POST':
+                    product_id = 0
+                    item = request.form['item']
+                    quantity = request.form['quantity']
+                    kg_or_lt = request.form['kg_or_lt']
+                    price = request.form['price']
+                    notes = request.form['notes']
+                    print(item, quantity, kg_or_lt, price,notes)
+                    cur = self.cnn.cursor()
+                    cur.execute('INSERT INTO Inventtorytable (product_id, item, quantity, kg_or_lt, price, notes) VALUES(%s, %s, %s, %s, %s, %s)',(product_id, item, quantity, kg_or_lt, price, notes))
+                    self.cnn.commit()
+                    flash("The item was successfully add it")
+                    return redirect(url_for("itemView"))
+            except:
+                flash("Something happens, try again")
+                return redirect(url_for("itemView"))    
             return redirect(url_for("itemView"))
         
         @self.appFlaskName.route(self.route_editItem)
-        def editItem():
-            return redirect(url_for("table"))
+        def editItem(id):
+            cur = self.cnn.cursor()
+            cur.execute(f'SELECT * FROM Inventtorytable WHERE product_id = {id}')
+            data = cur.fetchall()
+            self.cnn.commit()
+            print(data)
+            return redirect(url_for("table", itemInformation = data[0]))
         
         @self.appFlaskName.route(self.route_itemUpdate, methods=['POST', 'GET'])
         def itemUpdate():
+            try:
+                if request.method == 'POST':
+                    product_id = 0
+                    item = request.form['item']
+                    quantity = request.form['quantity']
+                    kg_or_lt = request.form['kg_or_lt']
+                    price = request.form['price']
+                    notes = request.form['notes']
+                    print(item, quantity, kg_or_lt, price,notes)
+                    cur = self.cnn.cursor()
+                    cur.execute(f'UPDATE Inventtorytable SET = item = %s, quantity = %s, kg_or_lt = %s, price= %s, notes = %s WHERE product_id = {id}', {item, quantity, kg_or_lt, price, notes})
+                    self.cnn.commit()
+                    flash("The item was successfully update it")
+                    return redirect(url_for("itemUpdate"))
+            except:
+                flash("There was a problem with the update proccess of the item")
             return redirect(url_for("table"))
         
         @self.appFlaskName.route(self.route_itemDelete)
-        def deleteItem():
+        def deleteItem(id):
             print("it works")
-            return redirect(url_for("table"))
+            cur = self.cnn.cursor()              
+            cur.execute(f'DELETE FROM Inventtorytable WHERE product_id = {id}')
+            self.cnn.commit()
+            flash(f"the item with id = {id} was delete successsfully")
+            return redirect(url_for("itemView"))    

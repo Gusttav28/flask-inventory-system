@@ -8,14 +8,11 @@ cnn = mysql.connector.connect(
 )
 
 cur = cnn.cursor()
-product_id = 0
-item = 'Onions'
-quantity = 1
-kg_or_lt = 0.245
-price = 169.05
-notes = 'Regular Purchase'
-cur = cnn.cursor()
-cur.execute('INSERT INTO Inventtorytable (product_id, item, quantity, kg_or_lt, price, notes) VALUES(%s, %s, %s, %s, %s, %s)',  (product_id, item, quantity, kg_or_lt, price, notes))
+id = 18
+cur.execute(f'DELETE FROM Inventtorytable WHERE product_id = {id}')
+table_view = cur.execute('SELECT * FROM Inventtorytable')
 cnn.commit()
+
+print(table_view)
 
  

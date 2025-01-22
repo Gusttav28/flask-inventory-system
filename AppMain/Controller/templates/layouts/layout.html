@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flask Personal Inventory</title>
     <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+    <style>
+      body {
+        margin: 0;
+        /* font-family: Arial, sans-serif; */
+      }
+      .sidebar {
+        height: 100%;
+        width: 260px;
+        position: fixed; /* Fixed position to stay on the side */
+        top: 0;
+        left: 0;
+        background-color: white; /* Dark background */
+        padding-top: 40px;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+      }
+      .sidebar a {
+        /* display: inline; */
+        padding: 0;
+        text-decoration: none;
+        font-size: 18px;
+        color: black;
+        background-color: transparent;
+        transition: 0.3s; /* Smooth hover effect */
+      }
+
+      .sidebar a:hover {
+          background-color: #d6d6d6;
+          color: black;
+      }
+
+        /* Main content */
+        .main {
+            margin-left: 250px; /* Same as sidebar width */
+            padding: 20px;
+        }
+
+    </style>  
 </head>
 <body>
     <!-- <nav>
@@ -16,10 +53,11 @@
             </li>
         </ul>
     </nav> -->
+    
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
         <div class="container-fluid">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0"">
+          <ul class="navbar-nav me-auto mb-2">
             <li class="nav-item">
               <a class="nav-link active" href="/">HOME</a>
             </li>
