@@ -76,6 +76,11 @@
               <li class="nav-item">
                 <a class="nav-link active" href="/login">Login</a>
               </li>
+              {% if user_name %}
+              <li class="nav-item">
+                <a class="nav-link active" href="/userSettings">{{ user_name }}</a>
+              </li>
+              {% endif %}
             </ul>
           </div>
         </div>

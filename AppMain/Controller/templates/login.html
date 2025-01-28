@@ -2,6 +2,38 @@
 
 {% block body %}
 
-<h1>this is the login page </h1>
+<div class="mx-auto col-md-8 d-flex justify-content-center align-items-center" style="height: 70vh;">
+    <div class="w-50">
+        <div>  
+            <form method="POST" action="/authenticatingUser"> 
+                <table class="table table-hover table-bordered bg-white table-sm">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label for="exampleInputEmail1" class="form-label mt-2">Email address</label>
+                                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="exampleInputPassword1" class="form-label mt-2">Password</label>
+                                <input type="password" name="password"
+                                class="form-control" id="exampleInputPassword1" placeholder="Password" autocomplete="off">
+                            </td>
+                        </tr>
+                    </tbody>
+                    <div>   
+                    </div>
+                </table>    
+                <!-- <a class="btn btn-primary btn-lg" style="position: relative; left: 150px; padding: 20px 80px; margin-bottom: 120px; margin-top: 20px;" href="/login">
+                    log in</a> -->
+                <button type="submit" class="btn btn-primary btn-lg" style="position: relative; left: 150px; padding: 20px 80px; margin-bottom: 120px; margin-top: 20px;">log in</button>
+                <a class="btn btn-success btn-lg" style="position: relative; right: 99px; padding: 20px 80px; margin-top: 80px;" href="/createAccount">
+                    Create Account</a>                
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

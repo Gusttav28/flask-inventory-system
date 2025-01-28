@@ -38,7 +38,7 @@ setTimeout(() =>{
     }
 }, 2000);
 
-function itemsDeleteFu() {
+function itemsDeleteFu(item_id, item_information) {
     // btnDelette.className = 'btn btn-danger';
     // btnDelette.textContent = 'Delete';
     // btnDelette.href = '/itemDelete';
@@ -49,7 +49,8 @@ function itemsDeleteFu() {
     btnEdit.href = "#";
     btnContainer.appendChild(btnEdit);
 
-    btnContainer.removeChild(btnAdd);
+    btnContainer.removeChild(btnAdd); 
+
 }
 
 function openModal(){
