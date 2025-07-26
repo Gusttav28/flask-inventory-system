@@ -7,12 +7,10 @@ cnn = mysql.connector.connect(
     database = "DB_Inventory"
 )
 
+
 cur = cnn.cursor()
-id = 18
-cur.execute(f'DELETE FROM Inventtorytable WHERE product_id = {id}')
-table_view = cur.execute('SELECT * FROM Inventtorytable')
-cnn.commit()
-
-print(table_view)
-
+cur.execute('SELECT * FROM usersTable')
+data = cur.fetchall() 
+for i in data:
+    print(i)
  
